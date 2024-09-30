@@ -99,7 +99,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, scheduler
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs}"):
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
-            with torch.amp.autocast():
+            with torch.amp.autocast(device_type=device.type):
                 outputs = model(images)
                 loss = criterion(outputs, labels)
             loss.backward()
@@ -120,7 +120,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, scheduler
         with torch.no_grad():
             for images, labels in val_loader:
                 images, labels = images.to(device), labels.to(device)
-                with torch.amp.autocast():
+                with torch.amp.autocast(device_type=device.type):
                     outputs = model(images)
                     loss = criterion(outputs, labels)
                 val_loss += loss.item() * images.size(0)
