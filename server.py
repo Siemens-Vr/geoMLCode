@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 # Load the model
 try:
-    model = load_model('E:/AI captioning/Script/improved_geothermal_model.keras')
+    model = load_model('E:/AI captioning/Script/improved_geothermal_model.keras') # change this to where you have downloaded your model
     logger.info("Model loaded successfully.")
 except Exception as e:
     logger.error(f"Error loading model: {e}")
