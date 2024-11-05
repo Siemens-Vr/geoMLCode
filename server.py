@@ -15,9 +15,14 @@ CORS(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Set confidence threshold (1. Raise it for stricter, "I'm sure" predictions 🤓, or 
+# 2. Lower it if you want to keep the model's self-esteem sky-high 🤭 — but careful, accuracy might get a bit wobbly!)
+
+CONFIDENCE_THRESHOLD = 0.4  # 40% confidence
+
 # Load the model
 try:
-    model = load_model('E:/AI captioning/Script/improved_geothermal_model.keras') # change this to where you have downloaded your model
+    model = load_model('E:/AI captioning/Script/improved_geothermal_model.keras')
     logger.info("Model loaded successfully.")
 except Exception as e:
     logger.error(f"Error loading model: {e}")
@@ -46,7 +51,6 @@ def preprocess_image(image_file, filename):
         image = image.resize((224, 224))
         image_array = img_to_array(image)
         logger.info(f"Image array shape after preprocessing: {image_array.shape}")
-
         return np.expand_dims(image_array, axis=0) / 255.0
     except Exception as e:
         logger.error(f"Error processing image: {e}")
@@ -66,7 +70,7 @@ class_explanations = {
 def predict():
     if 'file0' not in request.files:
         return jsonify({"error": "No file part"}), 400
-
+    
     files = request.files.to_dict()
     if not files:
         return jsonify({"error": "No selected file"}), 400
@@ -86,21 +90,36 @@ def predict():
             predictions = model.predict(input_image)
             prediction = np.argmax(predictions[0])
             confidence = float(predictions[0][prediction])
-            class_name = class_names.get(prediction, "Unknown")
-            explanations = class_explanations.get(prediction, ["No explanation available"])
 
-            results.append({
-                "filename": filename,
-                "prediction": class_name,
-                "confidence": confidence,
-                "explanations": explanations
-            })
+            # Check confidence threshold
+            if confidence < CONFIDENCE_THRESHOLD:
+                results.append({
+                    "filename": filename,
+                    "prediction": "Unknown",
+                    "confidence": confidence,
+                    "explanations": ["This image has been classified as an \"unknown object\" — the model just wasn’t feeling confident enough! 😅"],
+                    "is_low_confidence": True
+                })
+            else:
+                class_name = class_names.get(prediction, "Unknown")
+                explanations = class_explanations.get(prediction, ["No explanation available"])
+                results.append({
+                    "filename": filename,
+                    "prediction": class_name,
+                    "confidence": confidence,
+                    "explanations": explanations,
+                    "is_low_confidence": False
+                })
+
         except Exception as e:
             logger.error(f"Error in prediction: {e}")
-            results.append({"filename": f"image{index}.jpg", "error": str(e)})
+            results.append({
+                "filename": f"image{index}.jpg", 
+                "error": str(e),
+                "is_low_confidence": False
+            })
 
     return jsonify(results)
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-
