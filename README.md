@@ -1,5 +1,36 @@
 **Geothermal Classification with PyTorch and MLflow**
 
+
+Your README is concise but could benefit from a few more details for clarity and professionalism. Here’s an improved version:
+
+Geothermal Model Deployment
+Important
+Please Note:
+This model is intended for demonstration and testing purposes only. Downloading and deploying this model is not recommended for production environments or critical applications.
+
+Model Download
+Download the model file from the following link:
+Geothermal Model on Hugging Face
+
+Requirements
+Clone this repository and download server.py.
+Install the required Python packages by running:
+bash
+Copy code
+pip install -r requirements.txt
+Run the Script:
+It’s recommended to use a virtual environment to avoid conflicts with global packages. To activate the virtual environment and run the script:
+bash
+Copy code
+# Create and activate a virtual environment
+python -m venv env
+source env/bin/activate   # On Windows, use `env\Scripts\activate`
+
+# Run the server
+python server.py
+Disclaimer
+This model is for educational and testing purposes only. It may lack the reliability needed for real-world applications. For any mission-critical use cases, please refer to official, verified resources.
+
 This repository contains a PyTorch-based implementation for classifying geothermal images. 
 The model is trained on geothermal datasets using transfer learning with ResNet18, 
 and MLflow is integrated for experiment tracking and logging.
