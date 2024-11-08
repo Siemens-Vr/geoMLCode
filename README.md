@@ -13,6 +13,8 @@ This repository provides a PyTorch-based model to classify geothermal images int
 ### Model Download
 Download the pretrained model from Hugging Face:  
 **[Geothermal Model on Hugging Face](https://huggingface.co/Kamalikinuthia/Geothermal_model/commit/f281d69041cdcb8643c1cbf4c4d547802d325777)**
+**Note**
+Please refer to hugging face instructions on how to use Huggingface models
 
 ### Requirements
 1. Clone this repository and download `server.py`.
@@ -75,4 +77,3 @@ Data augmentation enhances model generalization. Transformations applied:
 
 ---
 
-This README now provides a clear, organized, and detailed structure for setting up, running, and understanding the geothermal classification model. Let me know if there’s any specific section you'd like to expand!
