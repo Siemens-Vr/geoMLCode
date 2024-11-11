@@ -1,7 +1,7 @@
 # Geothermal Classification with PyTorch and MLflow
 
 ## Overview
-This repository provides a PyTorch-based model to classify geothermal images into specific categories using transfer learning with ResNet18. The model integrates MLflow for comprehensive experiment tracking, logging, and reproducibility.
+This repository provides a dot keras-based model to classify geothermal images into specific categories using transfer learning with ResNet18. The model integrates MLflow for comprehensive experiment tracking, logging, and reproducibility.
 
 ---
 
